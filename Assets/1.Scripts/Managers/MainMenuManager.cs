@@ -58,6 +58,7 @@ public class MainMenuManager : MonoBehaviour
     public void SetCanvasState(MenuSceneState newState)
     {
         if (newState == CurrentMenuState) { Debug.LogWarning($"MenuState {newState} while already in {newState}"); return; }
+        StartCoroutine(IE_SetCanvasState(newState));
 
     }
     private IEnumerator IE_SetCanvasState(MenuSceneState newState)
@@ -95,12 +96,28 @@ public class MainMenuManager : MonoBehaviour
     public void OnSingleplayerSelected()
     {
         e_MultiplayerSelected(false);
-
+        OpenMapCanvas();
     }
 
     public void OnMultiplayerSelected()
     {
         e_MultiplayerSelected(true);
+        OpenMapCanvas();
+    }
+
+    public void OpenMenuCanvas()
+    {
+        SetCanvasState(MenuSceneState.Menu);
+    }
+
+    public void OpenMapCanvas()
+    {
+        SetCanvasState(MenuSceneState.Map);
+    }
+
+    public void OpenCharacterCanvas()
+    {
+        SetCanvasState(MenuSceneState.Character);
     }
 
 

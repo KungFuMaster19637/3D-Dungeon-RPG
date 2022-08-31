@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class SelectMapCanvas : MenuCanvasVirtual
 {
+
+    [SerializeField] private Transform _buttonHolder;
+    [SerializeField] private MapButtonController _buttonPrefab;
+    public void Back()
+    {
+        MainMenuManager.Instance.OpenMenuCanvas();
+    }
+
+    public void InstantiateMapButtons(MapSO mapSO)
+    {
+       MapButtonController mapButton = Instantiate(_buttonPrefab, _buttonHolder);
+       mapButton.SetButton(mapSO);
+    }
+
     #region Open & Close
     public override IEnumerator OnOpen()
     {
@@ -15,4 +29,6 @@ public class SelectMapCanvas : MenuCanvasVirtual
         return base.OnClose();
     }
     #endregion
+
+
 }

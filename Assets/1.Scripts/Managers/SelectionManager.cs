@@ -9,6 +9,9 @@ public class SelectionManager : MonoBehaviour
     public static MapSO CurrentMap { get; private set; }
     public static CharacterSO CurrentCharacter { get; private set; }
 
+    [SerializeField] private SelectMapCanvas _selectMapCanvas;
+    [SerializeField] private MapSO[] _mapButtons;
+
     #region Singleton
     public static SelectionManager Instance { get; private set; }
 
@@ -47,5 +50,13 @@ public class SelectionManager : MonoBehaviour
     private void OnCharacterSelected(CharacterSO selectedCharacter)
     {
         CurrentCharacter = selectedCharacter;
+    }
+
+    public void SetMapButtons()
+    {
+        foreach(MapSO map in _mapButtons)
+        {
+            _selectMapCanvas.InstantiateMapButtons(map);
+        }
     }
 }
