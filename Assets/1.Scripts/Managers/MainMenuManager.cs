@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 
 public enum MenuSceneState
@@ -55,6 +56,7 @@ public class MainMenuManager : MonoBehaviour
         SetCanvasState(MenuSceneState.Menu);
     }
 
+    #region Canvas State
     public void SetCanvasState(MenuSceneState newState)
     {
         if (newState == CurrentMenuState) { Debug.LogWarning($"MenuState {newState} while already in {newState}"); return; }
@@ -65,16 +67,17 @@ public class MainMenuManager : MonoBehaviour
     {
         MenuSceneState oldState = CurrentMenuState;
 
-        if (GetCanvas(oldState) != null)
+        //Open new first so it doesn't glitch
+        if (GetCanvas(newState) != null)
         {
-            yield return GetCanvas(oldState).OnClose();
+            yield return GetCanvas(newState).OnOpen();
         }
 
         CurrentMenuState = newState;
 
-        if (GetCanvas(newState) != null)
+        if (GetCanvas(oldState) != null)
         {
-            yield return GetCanvas(newState).OnOpen();
+            yield return GetCanvas(oldState).OnClose();
         }
 
         yield return null;
@@ -93,6 +96,9 @@ public class MainMenuManager : MonoBehaviour
         return null;
     }
 
+    #endregion
+
+    #region Selection
     public void OnSingleplayerSelected()
     {
         e_MultiplayerSelected(false);
@@ -105,6 +111,25 @@ public class MainMenuManager : MonoBehaviour
         OpenMapCanvas();
     }
 
+    public void OnMapSelected(MapSO selectedMap)
+    {
+        e_MapSelected(selectedMap);
+        OpenCharacterCanvas();
+    }
+
+    public void OnCharacterSelected(CharacterSO selectedCharacter)
+    {
+        e_CharacterSelected(selectedCharacter);
+        LoadMap();
+    }
+
+    public void OnSettingsSelected()
+    {
+
+    }
+    #endregion
+
+    #region Open Canvas
     public void OpenMenuCanvas()
     {
         SetCanvasState(MenuSceneState.Menu);
@@ -119,11 +144,11 @@ public class MainMenuManager : MonoBehaviour
     {
         SetCanvasState(MenuSceneState.Character);
     }
+    #endregion
 
-
-
-    public void OnSettingsSelected()
+    public void LoadMap()
     {
-
+        SceneManager.LoadScene(SelectionManager.CurrentMap.MapID);
     }
+
 }

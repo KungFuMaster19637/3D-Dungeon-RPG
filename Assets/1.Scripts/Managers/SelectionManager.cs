@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
-
     public static bool CurrentPlaystate { get; private set; }
     public static MapSO CurrentMap { get; private set; }
     public static CharacterSO CurrentCharacter { get; private set; }
 
     [SerializeField] private SelectMapCanvas _selectMapCanvas;
+    [SerializeField] private SelectCharacterCanvas _selectCharacterCanvas;
     [SerializeField] private MapSO[] _mapButtons;
+    [SerializeField] private CharacterSO[] _characterButtons;
 
     #region Singleton
     public static SelectionManager Instance { get; private set; }
@@ -38,6 +39,19 @@ public class SelectionManager : MonoBehaviour
     }
     #endregion
 
+    private void Start()
+    {
+        Init();
+
+    }
+
+    private void Init()
+    {
+        SetMapButtons();
+        SetCharacterButtons();
+    }
+
+    #region Selection
     private void OnPlaystateSelected(bool isMultiplayer)
     {
         CurrentPlaystate = isMultiplayer;
@@ -51,12 +65,21 @@ public class SelectionManager : MonoBehaviour
     {
         CurrentCharacter = selectedCharacter;
     }
+    #endregion
 
     public void SetMapButtons()
     {
         foreach(MapSO map in _mapButtons)
         {
             _selectMapCanvas.InstantiateMapButtons(map);
+        }
+    }
+
+    public void SetCharacterButtons()
+    {
+        foreach(CharacterSO character in _characterButtons)
+        {
+            _selectCharacterCanvas.InstantiateCharacterButtons(character);
         }
     }
 }

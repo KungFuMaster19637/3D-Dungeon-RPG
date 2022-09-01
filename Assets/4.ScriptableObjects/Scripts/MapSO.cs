@@ -7,4 +7,6 @@ using UnityEngine;
 public class MapSO : ScriptableObject
 {
     public int MapID;
+    public string MapName;
+    public Sprite MapSprite;
 }

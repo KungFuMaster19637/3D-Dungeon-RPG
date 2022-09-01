@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b915431ed034284f97feaa55eb7d524, type: 3}
   m_Name: TestMap1
   m_EditorClassIdentifier: 
-  MapID: 0
+  MapID: 1
+  MapName: First Map
+  MapSprite: {fileID: 21300000, guid: d1d0290fc1d385347bdf72a66564ccea, type: 3}
