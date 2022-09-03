@@ -27,6 +27,19 @@ public class BoardManager : MonoBehaviour
     }
     #endregion
 
+    public TileController GetTile(int index)
+    {
+        return (_tileControllers[index]);
+    }
 
+    public void MoveCharacter()
+    {
+
+    }
+
+    private IEnumerator IE_MoveCharacter()
+    {
+        yield return null;
+    }
 
 }

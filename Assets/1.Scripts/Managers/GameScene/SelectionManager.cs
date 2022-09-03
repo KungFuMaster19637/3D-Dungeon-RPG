@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
-    public static bool CurrentPlaystate { get; private set; }
+    public static bool IsMultiplayerState { get; private set; }
     public static MapSO CurrentMap { get; private set; }
     public static CharacterSO CurrentCharacter { get; private set; }
 
@@ -54,7 +54,7 @@ public class SelectionManager : MonoBehaviour
     #region Selection
     private void OnPlaystateSelected(bool isMultiplayer)
     {
-        CurrentPlaystate = isMultiplayer;
+        IsMultiplayerState = isMultiplayer;
     }
     private void OnMapSelected(MapSO selectedMap)
     {

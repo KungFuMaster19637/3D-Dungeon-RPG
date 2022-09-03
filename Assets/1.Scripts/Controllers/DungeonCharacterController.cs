@@ -18,5 +18,10 @@ public class DungeonCharacterController : MonoBehaviour
 
     }
 
+    public void MoveCharacter()
+    {
+
+    }
+
 }
 
