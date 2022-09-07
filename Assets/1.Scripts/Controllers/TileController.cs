@@ -2,23 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TileRoute
-{
-    Main,
-    SiderouteA,
-    SiderouteB,
-    SiderouteC
-}
-public enum TileType
-{
-    Start,
-    Neutral,
-    Training,
-    Encounter,
-    Special,
-    Boss
-}
-
 public class TileController : MonoBehaviour
 {
     [Header("Tile Variables")]
@@ -28,24 +11,32 @@ public class TileController : MonoBehaviour
 
     [Header("Tile Split")]
     [SerializeField] private bool _isSplit;
-    [SerializeField] private TileController _convergenceTile;
 
     private void Start()
     {
-        CheckTileSplit();       
+        SetTileSplit();       
     }
 
-    private void CheckTileSplit()
+    #region Get and Set Functions
+    public TileType GetTileType()
     {
-        if (_isSplit)
-        {
-            _convergenceTile = BoardManager.Instance.GetTile(_tileIndex + 1);
-        }
+        return _tileType;
+    }
+
+    public TileRoute GetTileRoute()
+    {
+        return _tileRoute;
     }
 
     public int GetTileIndex()
     {
         return _tileIndex;
+    }
+
+
+    public bool GetTileSplit()
+    {
+        return _isSplit;
     }
     public void SetTileIndex(int index)
     {
@@ -56,6 +47,14 @@ public class TileController : MonoBehaviour
     {
         _tileRoute = route;
     }
+    private void SetTileSplit()
+    {
+        if (_isSplit)
+        {
+            BoardManager.Instance.SetTileConverger(this);
+        }
+    }
+    #endregion
 
 
 }

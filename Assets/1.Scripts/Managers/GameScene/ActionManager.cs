@@ -17,12 +17,28 @@ public class ActionManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        GameManager.e_CharacterMoved += CheckTileAction;
     }
+
+
     private void OnDestroy()
     {
         Instance = null;
+        GameManager.e_CharacterMoved -= CheckTileAction;
     }
     #endregion
+
+    private void CheckTileAction(DungeonCharacterController currentPlayer)
+    {
+        switch(currentPlayer.GetCharacterTile().GetTileType())
+        {
+            case TileType.Neutral:
+                break;
+                //Other cases
+        }
+    }
+
 
 
 }

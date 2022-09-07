@@ -18,6 +18,20 @@ public class DungeonCharacterController : MonoBehaviour
 
     }
 
+    public TileController GetCharacterTile()
+    {
+        RaycastHit hit;
+        TileController currentTile = null;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit))
+        {
+            if (hit.transform.GetComponent<TileController>())
+            {
+                currentTile = hit.transform.GetComponent<TileController>();
+            }
+        }
+        return currentTile;
+    }
+
     public void MoveCharacter()
     {
 

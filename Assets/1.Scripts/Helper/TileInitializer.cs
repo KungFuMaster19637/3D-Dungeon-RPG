@@ -8,7 +8,7 @@ public class TileInitializer : MonoBehaviour
     [SerializeField] private TileRoute _tileRoute;
     private int index;
 
-    private void Start()
+    private void Awake()
     {
         SetTileIndex();
     }

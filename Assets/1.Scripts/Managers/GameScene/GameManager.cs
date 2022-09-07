@@ -3,16 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum PlayerTurn
+{
+    None,
+    Player1,
+    Player2,
+    Player3,
+    Player4
+}
+
 public class GameManager : MonoBehaviour
 {
 
 
-    public static DungeonCharacterController[] Players;
+    public DungeonCharacterController[] Players;
+    public static PlayerTurn CurrentPlayerTurn;
 
     public static int CurrentTurn;
+    public static bool CanRollDice;
 
-    public static event Action<int> e_ChangedTurns = delegate { };
+    public static event Action<PlayerTurn> e_ChangedTurns = delegate { };
     public static event Action<int> e_RolledDice = delegate { };
+    public static event Action<DungeonCharacterController> e_CharacterMoved = delegate { };
 
     #region Singleton
     public static GameManager Instance { get; private set; }
@@ -33,52 +45,108 @@ public class GameManager : MonoBehaviour
         Instance = null;
     }
     #endregion
+
+    #region Setup
     private void Start()
     {
-        CurrentTurn = 1;
+        Init();
+    }
 
+    private void Init()
+    {
+        CurrentTurn = 0;
+        CanRollDice = true;
+        CurrentPlayerTurn = PlayerTurn.None;
+        CheckMultiplayerState();
+    }
+    #endregion
+
+    public DungeonCharacterController GetCurrentPlayer()
+    {
         if (SelectionManager.IsMultiplayerState)
         {
-            SetMultiTurn(CurrentTurn);
+            switch(CurrentPlayerTurn)
+            {
+                case PlayerTurn.Player1: return Players[0];
+
+                case PlayerTurn.Player2: return Players[1];
+
+                case PlayerTurn.Player3: return Players[2];
+
+                case PlayerTurn.Player4: return Players[3];
+
+                default: return Players[0];
+            }
+        }
+        else
+        {
+            return Players[0];
+        }
+    }
+
+    #region Setting Turns
+    private void CheckMultiplayerState()
+    {
+        if (SelectionManager.IsMultiplayerState)
+        {
+            SetMultiTurn(CurrentPlayerTurn);
+            e_ChangedTurns(CurrentPlayerTurn);
         }
         else
         {
             SetSingleTurn();
+            //e_ChangedTurns(CurrentPlayerTurn);
         }
     }
 
-    public void SetMultiTurn(int turn)
+
+    public void SetMultiTurn(PlayerTurn currentTurn)
     {
-        switch(turn)
+        switch(currentTurn)
         {
-            case 1:
-                CurrentTurn = 2;
+            case PlayerTurn.Player1:
+                CurrentTurn++;
+                CurrentPlayerTurn = PlayerTurn.Player2;
 
                 break;
-            case 2:
-                CurrentTurn = 3;
+            case PlayerTurn.Player2:
+                CurrentPlayerTurn = PlayerTurn.Player3;
 
                 break;
-            case 3:
-                CurrentTurn = 4;
+            case PlayerTurn.Player3:
+                CurrentPlayerTurn = PlayerTurn.Player4;
 
                 break;
-            case 4:
-                CurrentTurn = 1;
-
+            case PlayerTurn.Player4:
+                CurrentPlayerTurn = PlayerTurn.Player1;
+                break;
+            case PlayerTurn.None:
+                CurrentPlayerTurn = PlayerTurn.Player1;
                 break;
         }
     }
 
     public void SetSingleTurn()
     {
-        
+        Debug.Log(CurrentTurn);
+        CurrentTurn++;
+        CanRollDice = true;
     }
+    #endregion
 
-    public void RollDice(int minRoll, int maxRoll)
+    public void OnDiceRolled(int rolledDice)
     {
-        int diceRoll = UnityEngine.Random.Range(minRoll, maxRoll + 1);
-        e_RolledDice(diceRoll);
+        e_RolledDice(rolledDice);
     }
 
+    public void OnCharacterMoved(DungeonCharacterController currentPlayer)
+    {
+        CanRollDice = false;
+        e_CharacterMoved(currentPlayer);
+    }
+
+    public void OnTurnEnded()
+    {
+        CheckMultiplayerState();
+    }
 }
