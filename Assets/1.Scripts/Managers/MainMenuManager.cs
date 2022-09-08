@@ -28,8 +28,12 @@ public class MainMenuManager : MonoBehaviour
     public static Action<bool> e_MultiplayerSelected = delegate { };
     public static Action<MapSO> e_MapSelected = delegate { };
     public static Action<CharacterSO> e_CharacterSelected = delegate { };
+    public static Action e_CharacterDeselected = delegate { };
+    public static Action<int> e_PlayerToSelect = delegate { };
 
-    [SerializeField] private CanvasObjects[] canvasStates; 
+    public static int PlayerCounter;
+
+    [SerializeField] private CanvasObjects[] canvasStates;
 
     #region Singleton
     public static MainMenuManager Instance { get; private set; }
@@ -53,6 +57,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        PlayerCounter = 1;
         SetCanvasState(MenuSceneState.Menu);
     }
 
@@ -119,8 +124,28 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnCharacterSelected(CharacterSO selectedCharacter)
     {
-        e_CharacterSelected(selectedCharacter);
-        LoadMap();
+        if (SelectionManager.IsMultiplayerState && PlayerCounter < 4)
+        {
+            PlayerCounter++;
+            e_CharacterSelected(selectedCharacter);
+            e_PlayerToSelect(PlayerCounter);
+
+        }
+        else
+        {
+            e_CharacterSelected(selectedCharacter);
+            LoadMap();
+        }
+    }
+
+    public void OnPlayerBack()
+    {
+        if (PlayerCounter > 1)
+        {
+            PlayerCounter--;
+            e_CharacterDeselected();
+            e_PlayerToSelect(PlayerCounter);
+        }
     }
 
     public void OnSettingsSelected()

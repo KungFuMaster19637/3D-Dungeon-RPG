@@ -14,7 +14,8 @@ public enum TileType
 {
     Start,
     Neutral,
-    Training,
+    Loot,
+    Shop,
     Encounter,
     Special,
     Boss

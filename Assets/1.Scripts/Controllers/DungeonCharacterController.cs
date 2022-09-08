@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class DungeonCharacterController : MonoBehaviour
 {
-    private int _maxHealth, _currentHealth, _attack, _defence, _speed;
-    private Element _element;
+    public int MaxHealth, CurrentHealth, Attack, Defence, Speed;
+    public Element Element;
+    public Sprite ElementSprite;
 
-    private void SetCharacterStats(CharacterSO characterSO)
+    private void SetCharacterBaseStats(CharacterSO characterSO)
     {
-        _element = characterSO.Element;
-        _maxHealth = characterSO.BaseHealth;
-        _currentHealth = _maxHealth;
-        _attack = characterSO.BaseAttack;
-        _defence = characterSO.BaseDefence;
-        _speed = characterSO.BaseSpeed;
-
+        Element = characterSO.Element;
+        ElementSprite = characterSO.ElementSprite;
+        MaxHealth = characterSO.BaseHealth;
+        CurrentHealth = MaxHealth;
+        Attack = characterSO.BaseAttack;
+        Defence = characterSO.BaseDefence;
+        Speed = characterSO.BaseSpeed;
     }
 
     public TileController GetCharacterTile()
@@ -30,11 +31,6 @@ public class DungeonCharacterController : MonoBehaviour
             }
         }
         return currentTile;
-    }
-
-    public void MoveCharacter()
-    {
-
     }
 
 }

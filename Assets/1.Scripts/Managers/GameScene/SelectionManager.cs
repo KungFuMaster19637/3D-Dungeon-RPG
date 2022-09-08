@@ -6,7 +6,7 @@ public class SelectionManager : MonoBehaviour
 {
     public static bool IsMultiplayerState { get; private set; }
     public static MapSO CurrentMap { get; private set; }
-    public static CharacterSO CurrentCharacter { get; private set; }
+    public List<CharacterSO> CurrentCharacter;
 
     [SerializeField] private SelectMapCanvas _selectMapCanvas;
     [SerializeField] private SelectCharacterCanvas _selectCharacterCanvas;
@@ -31,11 +31,16 @@ public class SelectionManager : MonoBehaviour
         MainMenuManager.e_MultiplayerSelected += OnPlaystateSelected;
         MainMenuManager.e_MapSelected += OnMapSelected;
         MainMenuManager.e_CharacterSelected += OnCharacterSelected;
+        MainMenuManager.e_CharacterDeselected += OnCharacterDeselected;
 
     }
     private void OnDestroy()
     {
         Instance = null;
+        MainMenuManager.e_MultiplayerSelected -= OnPlaystateSelected;
+        MainMenuManager.e_MapSelected -= OnMapSelected;
+        MainMenuManager.e_CharacterSelected -= OnCharacterSelected;
+        MainMenuManager.e_CharacterDeselected -= OnCharacterDeselected;
     }
     #endregion
 
@@ -63,7 +68,12 @@ public class SelectionManager : MonoBehaviour
 
     private void OnCharacterSelected(CharacterSO selectedCharacter)
     {
-        CurrentCharacter = selectedCharacter;
+        CurrentCharacter.Add(selectedCharacter);
+    }
+
+    private void OnCharacterDeselected()
+    {
+        CurrentCharacter.RemoveAt(CurrentCharacter.Count - 1);
     }
     #endregion
 

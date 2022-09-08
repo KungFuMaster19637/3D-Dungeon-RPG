@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public static event Action<PlayerTurn> e_ChangedTurns = delegate { };
     public static event Action<int> e_RolledDice = delegate { };
     public static event Action<DungeonCharacterController> e_CharacterMoved = delegate { };
+    public static event Action<DungeonCharacterController> e_StatsChanged = delegate { };
 
     #region Singleton
     public static GameManager Instance { get; private set; }
@@ -84,6 +85,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void InitPlayer()
+    {
+
+    }
+
     #region Setting Turns
     private void CheckMultiplayerState()
     {
@@ -97,6 +103,7 @@ public class GameManager : MonoBehaviour
             SetSingleTurn();
             //e_ChangedTurns(CurrentPlayerTurn);
         }
+        e_StatsChanged(GetCurrentPlayer());
     }
 
 
@@ -145,6 +152,10 @@ public class GameManager : MonoBehaviour
         e_CharacterMoved(currentPlayer);
     }
 
+    public void OnStatsChanged()
+    {
+        e_StatsChanged(GetCurrentPlayer());
+    }
     public void OnTurnEnded()
     {
         CheckMultiplayerState();
