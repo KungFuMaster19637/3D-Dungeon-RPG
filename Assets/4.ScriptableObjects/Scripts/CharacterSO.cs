@@ -5,8 +5,8 @@ using UnityEngine;
 public enum Element
 {
     Air,
-    Fire,
     Earth,
+    Fire,
     Water
 }
 [CreateAssetMenu(fileName = "CharacterSO", menuName = "ScriptableObjects/CharacterSO", order = 1)]
@@ -16,6 +16,7 @@ public class CharacterSO : ScriptableObject
     public string CharacterName;
     public Sprite CharacterSprite;
     public Sprite ElementSprite;
+    public DungeonCharacterController CharacterPrefab;
 
     [Header("Gameplay Variables")]
     public Element Element;

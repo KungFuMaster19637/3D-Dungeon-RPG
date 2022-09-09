@@ -7,8 +7,9 @@ public class DungeonCharacterController : MonoBehaviour
     public int MaxHealth, CurrentHealth, Attack, Defence, Speed;
     public Element Element;
     public Sprite ElementSprite;
+    [SerializeField] private CharacterSO characterSO;
 
-    private void SetCharacterBaseStats(CharacterSO characterSO)
+    public void SetCharacterBaseStats()
     {
         Element = characterSO.Element;
         ElementSprite = characterSO.ElementSprite;

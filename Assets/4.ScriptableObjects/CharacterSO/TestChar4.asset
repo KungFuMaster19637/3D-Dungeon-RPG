@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08c81990cb4ec724d9ceb9237a3f0fd0, type: 3}
-  m_Name: TestChar2
+  m_Name: TestChar4
   m_EditorClassIdentifier: 
-  CharacterID: 0
+  CharacterID: 3
   CharacterName: Char 2
-  CharacterSprite: {fileID: 21300000, guid: 3c0a4a887c7045048b7e9b52ed172725, type: 3}
-  ElementSprite: {fileID: 21300000, guid: bea52a372c957df418caa522732e038e, type: 3}
-  CharacterPrefab: {fileID: 1299524112092199334, guid: 5277cce308f89994ba326be0ff72a740, type: 3}
-  Element: 1
-  BaseHealth: 45
-  BaseAttack: 75
-  BaseDefence: 90
-  BaseSpeed: 10
+  CharacterSprite: {fileID: 21300000, guid: e69576ad7c3d6204d80800af4a25ae96, type: 3}
+  ElementSprite: {fileID: 21300000, guid: 3d281b2a65677fa4ba45aa63b4af81e5, type: 3}
+  CharacterPrefab: {fileID: 1299524112092199334, guid: af9eaea4fe598d945aa1e526d69c0c21, type: 3}
+  Element: 3
+  BaseHealth: 89
+  BaseAttack: 72
+  BaseDefence: 48
+  BaseSpeed: 45

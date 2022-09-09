@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
     public static event Action<DungeonCharacterController> e_CharacterMoved = delegate { };
     public static event Action<DungeonCharacterController> e_StatsChanged = delegate { };
 
+    [Header("Locations")]
+    public Transform StartPosition;
+    public Transform[] SpawnLocations;
+
     #region Singleton
     public static GameManager Instance { get; private set; }
 
@@ -58,7 +62,9 @@ public class GameManager : MonoBehaviour
         CurrentTurn = 0;
         CanRollDice = true;
         CurrentPlayerTurn = PlayerTurn.None;
+        InitPlayers(); //Only use when comeing from menu scene
         CheckMultiplayerState();
+
     }
     #endregion
 
@@ -85,9 +91,47 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void InitPlayer()
+    private void InitPlayers()
     {
+        if (SelectionManager.IsMultiplayerState)
+        {
+            for (int i = 0; i < SelectionManager.Instance.CurrentCharacters.Count; i++)
+            {
+                DungeonCharacterController characterController = Instantiate(SelectionManager.Instance.CurrentCharacters[i].CharacterPrefab, SpawnLocations[i]);
+                characterController.SetCharacterBaseStats();
+                Players[i] = characterController;
 
+            }
+        }
+        else
+        {
+            DungeonCharacterController characterController = Instantiate(SelectionManager.Instance.CurrentCharacters[0].CharacterPrefab, SpawnLocations[0]);
+            characterController.SetCharacterBaseStats();
+            Players[0] = characterController;
+        }
+    }
+
+    private void SetPlayerStartPosition()
+    {
+        Debug.Log(CurrentTurn + " " + CurrentPlayerTurn);
+        if (CurrentTurn == 1)
+        {
+            switch(CurrentPlayerTurn)
+            {
+                case PlayerTurn.Player1:
+                    Players[0].transform.position = new Vector3(StartPosition.position.x, StartPosition.position.y, StartPosition.position.z);
+                    break;
+                case PlayerTurn.Player2:
+                    Players[1].transform.position = new Vector3(StartPosition.position.x, StartPosition.position.y, StartPosition.position.z);
+                    break;
+                case PlayerTurn.Player3:
+                    Players[2].transform.position = new Vector3(StartPosition.position.x, StartPosition.position.y, StartPosition.position.z);
+                    break;
+                case PlayerTurn.Player4:
+                    Players[3].transform.position = new Vector3(StartPosition.position.x, StartPosition.position.y, StartPosition.position.z);
+                    break;
+            }
+        }
     }
 
     #region Setting Turns
@@ -103,31 +147,33 @@ public class GameManager : MonoBehaviour
             SetSingleTurn();
             //e_ChangedTurns(CurrentPlayerTurn);
         }
+
+        SetPlayerStartPosition();
         e_StatsChanged(GetCurrentPlayer());
     }
 
 
-    public void SetMultiTurn(PlayerTurn currentTurn)
+    public void SetMultiTurn(PlayerTurn currentPlayerTurn)
     {
-        switch(currentTurn)
+        CanRollDice = true;
+
+        switch (currentPlayerTurn)
         {
             case PlayerTurn.Player1:
-                CurrentTurn++;
                 CurrentPlayerTurn = PlayerTurn.Player2;
-
                 break;
             case PlayerTurn.Player2:
                 CurrentPlayerTurn = PlayerTurn.Player3;
-
                 break;
             case PlayerTurn.Player3:
                 CurrentPlayerTurn = PlayerTurn.Player4;
-
                 break;
             case PlayerTurn.Player4:
+                CurrentTurn++;
                 CurrentPlayerTurn = PlayerTurn.Player1;
                 break;
             case PlayerTurn.None:
+                CurrentTurn++;
                 CurrentPlayerTurn = PlayerTurn.Player1;
                 break;
         }
@@ -135,9 +181,9 @@ public class GameManager : MonoBehaviour
 
     public void SetSingleTurn()
     {
-        Debug.Log(CurrentTurn);
-        CurrentTurn++;
         CanRollDice = true;
+        CurrentTurn++;
+        CurrentPlayerTurn = PlayerTurn.Player1;
     }
     #endregion
 

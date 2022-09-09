@@ -6,7 +6,7 @@ public class SelectionManager : MonoBehaviour
 {
     public static bool IsMultiplayerState { get; private set; }
     public static MapSO CurrentMap { get; private set; }
-    public List<CharacterSO> CurrentCharacter;
+    public List<CharacterSO> CurrentCharacters;
 
     [SerializeField] private SelectMapCanvas _selectMapCanvas;
     [SerializeField] private SelectCharacterCanvas _selectCharacterCanvas;
@@ -68,12 +68,12 @@ public class SelectionManager : MonoBehaviour
 
     private void OnCharacterSelected(CharacterSO selectedCharacter)
     {
-        CurrentCharacter.Add(selectedCharacter);
+        CurrentCharacters.Add(selectedCharacter);
     }
 
     private void OnCharacterDeselected()
     {
-        CurrentCharacter.RemoveAt(CurrentCharacter.Count - 1);
+        CurrentCharacters.RemoveAt(CurrentCharacters.Count - 1);
     }
     #endregion
 

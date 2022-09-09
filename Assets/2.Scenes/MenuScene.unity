@@ -2303,15 +2303,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b55f0a8cae9a74f8f5efbb35d1d526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentCharacter: []
+  CurrentCharacters: []
   _selectMapCanvas: {fileID: 599073281}
   _selectCharacterCanvas: {fileID: 1238856980}
   _mapButtons:
   - {fileID: 11400000, guid: 367c8167ae991ee4f94cfee8f51789dd, type: 2}
-  - {fileID: 11400000, guid: 6ed5d006997ecda48b60bd2480b12d14, type: 2}
   _characterButtons:
   - {fileID: 11400000, guid: aaf0cda92b68a214ab27d967c75d6816, type: 2}
   - {fileID: 11400000, guid: 74104d6f6ddb4874ab219d85d0f2e09f, type: 2}
+  - {fileID: 11400000, guid: b7a421967312abd40ada22c37cb7de4a, type: 2}
+  - {fileID: 11400000, guid: 41184bbdd956fbe459f5ad753a1244e4, type: 2}
 --- !u!1 &1255259734
 GameObject:
   m_ObjectHideFlags: 0
